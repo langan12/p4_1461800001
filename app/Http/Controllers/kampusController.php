@@ -25,8 +25,10 @@ class kampusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
+
     {
-        //
+        return view('tambah');
+
     }
 
     /**ss
@@ -37,7 +39,15 @@ class kampusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Menangkap Data Yang Diinput
+$nbi = $request->get('nbi');
+$nama_mhs = $request->get('nama_mhs');
+//Menyimpan data kedalam tabel
+$save_mhs = new \App\Models\kampus();
+$save_mhs->nbi = $nbi;
+$save_mhs->nama_mhs = $nama_mhs;
+$save_mhs->save();
+return redirect()->route('kampus.index');
     }
 
     /**
@@ -59,7 +69,8 @@ class kampusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $mhs_edit = \App\Models\kampus::findOrFail($id);
+return view('edit', ['kampus' => $mhs_edit]);
     }
 
     /**
@@ -71,7 +82,11 @@ class kampusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kmps = kampus::findOrFail($id);
+$kmps->nama_mhs = $request->get('nama_mhs');
+$kmps->nbi = $request->get('nbi');
+$kmps   ->save();
+return redirect()->route('kampus.index', [$id]);
     }
 
     /**
